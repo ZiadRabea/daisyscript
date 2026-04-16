@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Plan — DaisyScript</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0B0F14;
+      color: white;
+    }
+
+    .glass {
+      background: rgba(17,24,39,0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all .6s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .highlight {
+      border: 1px solid #22c55e;
+      box-shadow: 0 0 0 1px rgba(34,197,94,.2), 0 20px 40px rgba(34,197,94,.08);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<header class="border-b border-white/10 bg-black/40 backdrop-blur">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="font-bold">DaisyScript</div>
+    <a href="#" class="text-sm text-gray-400 hover:text-white">Back</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="py-20 px-6 text-center">
+  <div class="max-w-3xl mx-auto reveal">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
+      Basic Plan Breakdown
+    </h1>
+    <p class="text-gray-400 text-lg">
+      Start simple, then upgrade your landing page into a fully functional lead system.
+    </p>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="pb-24 px-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+
+    <!-- PLAN 1 -->
+    <div class="glass rounded-2xl p-6 reveal">
+      <h3 class="text-xl font-semibold mb-2">Plan One</h3>
+      <p class="text-gray-400 text-sm mb-6">Perfect for getting online fast.</p>
+
+      <div class="text-4xl font-extrabold mb-6">
+        $59<span class="text-lg text-gray-400">/year</span>
+      </div>
+
+      <ul class="space-y-3 text-sm text-gray-300 mb-8">
+        <li>• Landing page (modern design)</li>
+        <li>• SEO-ready structure</li>
+        <li>• Aim for #1 search positioning*</li>
+        <li>• Free domain for 1 year</li>
+      </ul>
+
+      <button class="w-full bg-white text-black py-3 rounded-xl font-semibold hover:bg-gray-200 transition">
+        Get Started
+      </button>
+    </div>
+
+    <!-- PLAN 2 -->
+    <div class="glass rounded-2xl p-6 reveal highlight">
+      <div class="mb-2 text-xs text-green-400 font-semibold">UPGRADE</div>
+      <h3 class="text-xl font-semibold mb-2">Plan Two</h3>
+      <p class="text-gray-400 text-sm mb-6">Add lead capture functionality.</p>
+
+      <div class="text-4xl font-extrabold mb-1">
+        +$39<span class="text-lg text-gray-400">/year</span>
+      </div>
+      <div class="text-sm text-gray-400 mb-6">add-on</div>
+
+      <ul class="space-y-3 text-sm text-gray-300 mb-8">
+        <li>• Everything in Plan One</li>
+        <li>• Basic contact form</li>
+        <li>• Powered by Formspree</li>
+        <li>• Email notifications</li>
+      </ul>
+
+      <button class="w-full bg-[#22c55e] text-black py-3 rounded-xl font-semibold hover:bg-[#4ade80] transition">
+        Add Contact Form
+      </button>
+    </div>
+
+    <!-- PLAN 3 -->
+    <div class="glass rounded-2xl p-6 reveal">
+      <div class="mb-2 text-xs text-green-400 font-semibold">PRO LEVEL</div>
+      <h3 class="text-xl font-semibold mb-2">Final Level</h3>
+      <p class="text-gray-400 text-sm mb-6">Professional email infrastructure.</p>
+
+      <div class="text-4xl font-extrabold mb-1">
+        +$99<span class="text-lg text-gray-400">/year</span>
+      </div>
+      <div class="text-sm text-gray-400 mb-6">upgrade</div>
+
+      <ul class="space-y-3 text-sm text-gray-300 mb-8">
+        <li>• Everything in Plan Two</li>
+        <li>• Custom SMTP integration</li>
+        <li>• Powered by our backend</li>
+        <li>• Save ~$180/year vs Formspree</li>
+        <li>• Branded email delivery</li>
+      </ul>
+
+      <button class="w-full bg-white text-black py-3 rounded-xl font-semibold hover:bg-gray-200 transition">
+        Go Professional
+      </button>
+    </div>
+
+  </div>
+
+  <div class="max-w-4xl mx-auto text-center text-xs text-gray-500 mt-10 reveal">
+    *Search ranking depends on competition, niche, and content quality. We optimize for best possible visibility.
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 text-center border-t border-white/10">
+  <div class="max-w-3xl mx-auto px-6 reveal">
+    <h2 class="text-3xl font-bold mb-4">Start simple. Upgrade anytime.</h2>
+    <p class="text-gray-400 mb-6">
+      You don’t need everything at once — we build in layers as your needs grow.
+    </p>
+    <button class="bg-[#22c55e] text-black px-8 py-4 rounded-xl font-semibold hover:bg-[#4ade80] transition">
+      Start Your Basic Plan
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 text-center text-gray-500 border-t border-white/10">
+  © 2026 DaisyScript
+</footer>
+
+<script>
+  // Reveal animation
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
