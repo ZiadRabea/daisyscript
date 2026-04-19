@@ -57,6 +57,22 @@
     <p class="text-gray-400 text-lg">
       Start simple, then upgrade your landing page into a fully functional lead system.
     </p>
+
+    <!-- Currency Switch -->
+    <div class="mt-8 inline-flex items-center gap-2 p-1 rounded-2xl border border-white/10 bg-white/5">
+      <button id="currencyEGP"
+        class="px-4 py-2 rounded-xl text-sm font-semibold transition bg-[#22c55e] text-black">
+        EGP
+      </button>
+      <button id="currencyUSD"
+        class="px-4 py-2 rounded-xl text-sm font-semibold transition text-gray-300 hover:text-white">
+        USD
+      </button>
+    </div>
+
+    <div id="rateNote" class="mt-3 text-xs text-gray-500">
+      Default rate: 1 USD ≈ 50 EGP
+    </div>
   </div>
 </section>
 
@@ -69,9 +85,7 @@
       <h3 class="text-xl font-semibold mb-2">Plan One</h3>
       <p class="text-gray-400 text-sm mb-6">Perfect for getting online fast.</p>
 
-      <div class="text-4xl font-extrabold mb-6">
-        $200<span class="text-lg text-gray-400">/year</span>
-      </div>
+      <div class="text-4xl font-extrabold mb-6 price" data-price-usd="200"></div>
 
       <ul class="space-y-3 text-sm text-gray-300 mb-8">
         <li>• Landing page (modern design)</li>
@@ -95,9 +109,7 @@
       <h3 class="text-xl font-semibold mb-2">Plan Two</h3>
       <p class="text-gray-400 text-sm mb-6">Add lead capture functionality.</p>
 
-      <div class="text-4xl font-extrabold mb-1">
-        $299<span class="text-lg text-gray-400">/year</span>
-      </div>
+      <div class="text-4xl font-extrabold mb-1 price" data-price-usd="299"></div>
       <div class="text-sm text-gray-400 mb-6">add-on</div>
 
       <ul class="space-y-3 text-sm text-gray-300 mb-8">
@@ -120,9 +132,7 @@
       <h3 class="text-xl font-semibold mb-2">Final Level</h3>
       <p class="text-gray-400 text-sm mb-6">Professional email infrastructure.</p>
 
-      <div class="text-4xl font-extrabold mb-1">
-        $499<span class="text-lg text-gray-400">/year</span>
-      </div>
+      <div class="text-4xl font-extrabold mb-1 price" data-price-usd="499"></div>
       <div class="text-sm text-gray-400 mb-6">upgrade</div>
 
       <ul class="space-y-3 text-sm text-gray-300 mb-8">
@@ -176,6 +186,64 @@
   }, { threshold: 0.15 });
 
   reveals.forEach(el => observer.observe(el));
+
+  // Currency logic
+  const currencyEGPBtn = document.getElementById('currencyEGP');
+  const currencyUSDBtn = document.getElementById('currencyUSD');
+  const rateNote = document.getElementById('rateNote');
+  const priceEls = document.querySelectorAll('[data-price-usd]');
+
+  let currentCurrency = 'EGP';
+  let usdToEgpRate = 50;
+
+  function formatEGP(value) {
+    return `EGP ${Math.round(value).toLocaleString()}`;
+  }
+
+  function formatUSD(value) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(value);
+  }
+
+  function renderPrices() {
+    priceEls.forEach(el => {
+      const usd = parseFloat(el.dataset.priceUsd);
+
+      el.textContent = currentCurrency === 'USD'
+        ? formatUSD(usd)
+        : formatEGP(usd * usdToEgpRate);
+    });
+
+    currencyEGPBtn.className = currentCurrency === 'EGP'
+      ? 'px-4 py-2 rounded-xl text-sm font-semibold bg-[#22c55e] text-black'
+      : 'px-4 py-2 rounded-xl text-sm font-semibold text-gray-300';
+
+    currencyUSDBtn.className = currentCurrency === 'USD'
+      ? 'px-4 py-2 rounded-xl text-sm font-semibold bg-[#22c55e] text-black'
+      : 'px-4 py-2 rounded-xl text-sm font-semibold text-gray-300';
+  }
+
+  currencyEGPBtn.onclick = () => { currentCurrency = 'EGP'; renderPrices(); };
+  currencyUSDBtn.onclick = () => { currentCurrency = 'USD'; renderPrices(); };
+
+  async function loadRate() {
+    try {
+      const res = await fetch('https://open.er-api.com/v6/latest/USD');
+      const data = await res.json();
+      if (data?.rates?.EGP) {
+        usdToEgpRate = data.rates.EGP;
+        rateNote.textContent = `Live rate: 1 USD ≈ ${usdToEgpRate.toFixed(2)} EGP`;
+      }
+    } catch {
+      rateNote.textContent = 'Using fallback rate: 1 USD ≈ 50 EGP';
+    }
+    renderPrices();
+  }
+
+  renderPrices();
+  loadRate();
 </script>
 
 </body>
