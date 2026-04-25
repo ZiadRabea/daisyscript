@@ -18,6 +18,7 @@
     }
 
     html { scroll-behavior: smooth; }
+
     body {
       font-family: 'Inter', sans-serif;
       background:
@@ -114,6 +115,11 @@
 
     .terminal-line {
       min-height: 1.8rem;
+    }
+
+    .toggle-active {
+      background: #22c55e;
+      color: #000;
     }
   </style>
 </head>
@@ -296,11 +302,26 @@
     <div class="max-w-7xl mx-auto">
       <div class="reveal text-center mb-14">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">Pricing</h2>
-        <p class="text-gray-400 max-w-2xl mx-auto">Clear yearly plans with straightforward starting prices.</p>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          Choose a billing cycle and currency. The cards always show the same offer, just in a different format.
+        </p>
 
+        <!-- Billing switch -->
         <div class="mt-6 inline-flex items-center gap-2 p-1 rounded-2xl border border-white/10 bg-white/5">
+          <button id="billingMonthly"
+            class="px-4 py-2 rounded-xl text-sm font-semibold transition toggle-active">
+            Monthly
+          </button>
+          <button id="billingYearly"
+            class="px-4 py-2 rounded-xl text-sm font-semibold transition text-gray-300 hover:text-white">
+            Yearly
+          </button>
+        </div>
+
+        <!-- Currency switch -->
+        <div class="mt-4 inline-flex items-center gap-2 p-1 rounded-2xl border border-white/10 bg-white/5">
           <button id="currencyEGP"
-            class="px-4 py-2 rounded-xl text-sm font-semibold transition bg-[#22c55e] text-black">
+            class="px-4 py-2 rounded-xl text-sm font-semibold transition toggle-active">
             EGP
           </button>
           <button id="currencyUSD"
@@ -323,8 +344,8 @@
           </div>
           <p class="text-gray-400 text-sm mb-6">For simple presence, one-off pages, and lead capture.</p>
           <div class="mb-6">
-            <div class="price text-5xl font-extrabold tracking-tight" data-price-usd="200"></div>
-            <div class="text-gray-400 text-sm mt-2">starts from / year</div>
+            <div class="price text-5xl font-extrabold tracking-tight" data-plan="basic"></div>
+            <div class="text-gray-400 text-sm mt-2" data-plan-note="basic"></div>
           </div>
           <ul class="space-y-3 text-sm text-gray-300 mb-8">
             <li>• One polished landing page</li>
@@ -344,8 +365,8 @@
           </div>
           <p class="text-gray-400 text-sm mb-6">For online stores, lead dashboards, and stronger product flows.</p>
           <div class="mb-6">
-            <div class="price text-5xl font-extrabold tracking-tight" data-price-usd="500"></div>
-            <div class="text-gray-400 text-sm mt-2">starts from / year</div>
+            <div class="price text-5xl font-extrabold tracking-tight" data-plan="grow"></div>
+            <div class="text-gray-400 text-sm mt-2" data-plan-note="grow"></div>
           </div>
           <ul class="space-y-3 text-sm text-gray-300 mb-8">
             <li>• Storefront or dashboard build</li>
@@ -365,8 +386,8 @@
           </div>
           <p class="text-gray-400 text-sm mb-6">For bigger products, systems, and fully tailored builds.</p>
           <div class="mb-6">
-            <div class="price text-5xl font-extrabold tracking-tight" data-price-usd="999.99"></div>
-            <div class="text-gray-400 text-sm mt-2">starts from / year</div>
+            <div class="price text-5xl font-extrabold tracking-tight" data-plan="premium"></div>
+            <div class="text-gray-400 text-sm mt-2" data-plan-note="premium"></div>
           </div>
           <ul class="space-y-3 text-sm text-gray-300 mb-8">
             <li>• Full product strategy and design</li>
@@ -408,10 +429,9 @@
       <div>
         <div class="text-white font-semibold mb-4">Contact</div>
         <div class="space-y-3 text-gray-400">
-
           <div class="flex items-center gap-3">
             <span>📞</span>
-            <a href="tel:+201000000000" class="hover:text-white transition">
+            <a href="tel:+201200738657" class="hover:text-white transition">
               +201200738657
             </a>
           </div>
@@ -427,7 +447,6 @@
             <span>📍</span>
             <span>Cairo, Egypt</span>
           </div>
-
         </div>
       </div>
 
@@ -440,7 +459,6 @@
           <a href="#pricing" class="hover:text-white transition">Pricing</a>
         </div>
       </div>
-
     </div>
 
     <!-- BOTTOM BAR -->
@@ -499,14 +517,39 @@
 
     runTerminal();
 
-    // Currency switch + dynamic exchange rate
+    // =========================
+    // Pricing config
+    // =========================
+    const pricing = {
+      basic: {
+        monthly: 29,
+        yearly: 200,
+      },
+      grow: {
+        monthly: 79,
+        yearly: 500,
+      },
+      premium: {
+        monthly: 149,
+        yearly: 999.99,
+      }
+    };
+
+    // =========================
+    // UI state
+    // =========================
+    const billingMonthlyBtn = document.getElementById('billingMonthly');
+    const billingYearlyBtn = document.getElementById('billingYearly');
     const currencyEGPBtn = document.getElementById('currencyEGP');
     const currencyUSDBtn = document.getElementById('currencyUSD');
     const rateNote = document.getElementById('rateNote');
-    const priceEls = document.querySelectorAll('[data-price-usd]');
+
+    const priceEls = document.querySelectorAll('[data-plan]');
+    const noteEls = document.querySelectorAll('[data-plan-note]');
 
     let currentCurrency = 'EGP';
-    let usdToEgpRate = 50; // fallback default
+    let currentBilling = 'monthly';
+    let usdToEgpRate = 50; // fallback
 
     function formatEGP(value) {
       return `EGP ${Math.round(value).toLocaleString('en-US')}`;
@@ -522,35 +565,67 @@
       }).format(value);
     }
 
-    function renderPrices() {
+    function setActiveButton(button, active) {
+      button.className = active
+        ? 'px-4 py-2 rounded-xl text-sm font-semibold transition toggle-active'
+        : 'px-4 py-2 rounded-xl text-sm font-semibold transition text-gray-300 hover:text-white';
+    }
+
+    function renderPricing() {
       priceEls.forEach((el) => {
-        const usdValue = parseFloat(el.dataset.priceUsd || '0');
+        const plan = el.dataset.plan;
+        const planData = pricing[plan];
+
+        const usdValue = currentBilling === 'monthly' ? planData.monthly : planData.yearly;
+        const converted = currentCurrency === 'USD' ? usdValue : usdValue * usdToEgpRate;
 
         if (currentCurrency === 'USD') {
-          el.textContent = formatUSD(usdValue);
+          el.innerHTML = `${formatUSD(usdValue)}<span class="text-lg text-gray-400">/mo</span>`;
         } else {
-          el.textContent = formatEGP(usdValue * usdToEgpRate);
+          el.innerHTML = `${formatEGP(converted)}<span class="text-lg text-gray-400">/mo</span>`;
+        }
+      });
+
+      noteEls.forEach((el) => {
+        const plan = el.dataset.planNote;
+        const planData = pricing[plan];
+
+        if (currentBilling === 'monthly') {
+          el.textContent = currentCurrency === 'USD'
+            ? 'billed monthly'
+            : `billed monthly • ${formatEGP(planData.monthly * usdToEgpRate)} / month`;
+        } else {
+          if (currentCurrency === 'USD') {
+            el.textContent = `billed yearly • ${formatUSD(planData.yearly)}/year`;
+          } else {
+            el.textContent = `billed yearly • ${formatEGP(planData.yearly * usdToEgpRate)}/year`;
+          }
         }
       });
 
       const isEGP = currentCurrency === 'EGP';
+      const isMonthly = currentBilling === 'monthly';
 
-      currencyEGPBtn.className = isEGP
-        ? 'px-4 py-2 rounded-xl text-sm font-semibold transition bg-[#22c55e] text-black'
-        : 'px-4 py-2 rounded-xl text-sm font-semibold transition text-gray-300 hover:text-white';
-
-      currencyUSDBtn.className = !isEGP
-        ? 'px-4 py-2 rounded-xl text-sm font-semibold transition bg-[#22c55e] text-black'
-        : 'px-4 py-2 rounded-xl text-sm font-semibold transition text-gray-300 hover:text-white';
+      setActiveButton(currencyEGPBtn, isEGP);
+      setActiveButton(currencyUSDBtn, !isEGP);
+      setActiveButton(billingMonthlyBtn, isMonthly);
+      setActiveButton(billingYearlyBtn, !isMonthly);
     }
 
     function setCurrency(currency) {
       currentCurrency = currency;
-      renderPrices();
+      renderPricing();
+    }
+
+    function setBilling(billing) {
+      currentBilling = billing;
+      renderPricing();
     }
 
     currencyEGPBtn.addEventListener('click', () => setCurrency('EGP'));
     currencyUSDBtn.addEventListener('click', () => setCurrency('USD'));
+    billingMonthlyBtn.addEventListener('click', () => setBilling('monthly'));
+    billingYearlyBtn.addEventListener('click', () => setBilling('yearly'));
 
     async function loadLiveExchangeRate() {
       try {
@@ -567,10 +642,10 @@
         rateNote.textContent = 'Using fallback rate: 1 USD ≈ 50 EGP';
       }
 
-      renderPrices();
+      renderPricing();
     }
 
-    renderPrices();
+    renderPricing();
     loadLiveExchangeRate();
   </script>
 </body>
