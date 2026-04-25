@@ -576,7 +576,7 @@
         const plan = el.dataset.plan;
         const planData = pricing[plan];
 
-        const usdValue = currentBilling === 'monthly' ? planData.monthly : planData.yearly;
+        const usdValue = currentBilling === 'monthly' ? planData.monthly : planData.yearly/12;
         const converted = currentCurrency === 'USD' ? usdValue : usdValue * usdToEgpRate;
 
         if (currentCurrency === 'USD') {
