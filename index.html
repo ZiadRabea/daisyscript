@@ -192,7 +192,7 @@
               Recent client briefs
             </div>
             <div class="mt-3 grid gap-3 text-sm">
-              <div class="glass rounded-2xl px-4 py-3 border border-white/10">Landing page for a fitness coach</div>
+              <div class="glass rounded-2xl px-4 py-3 border border-white/10">Landing page for a bookshop</div>
               <div class="glass rounded-2xl px-4 py-3 border border-white/10">Online store for handmade jewelry</div>
               <div class="glass rounded-2xl px-4 py-3 border border-white/10">Lead capture dashboard for a landscaping team</div>
             </div>
@@ -343,60 +343,83 @@
             <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300">Starter</span>
           </div>
           <p class="text-gray-400 text-sm mb-6">For simple presence, one-off pages, and lead capture.</p>
+
           <div class="mb-6">
             <div class="price text-5xl font-extrabold tracking-tight" data-plan="basic"></div>
             <div class="text-gray-400 text-sm mt-2" data-plan-note="basic"></div>
           </div>
+
           <ul class="space-y-3 text-sm text-gray-300 mb-8">
             <li>• One polished landing page</li>
             <li>• Mobile responsive layout</li>
             <li>• Contact / lead form</li>
           </ul>
-          <button onclick="window.open('basic.html')" class="w-full bg-[#22c55e] hover:bg-[#4ade80] text-black py-3 rounded-xl font-semibold transition shine">
+
+          <a id="basicCta"
+            href="#"
+            class="w-full inline-block text-center bg-[#22c55e] hover:bg-[#4ade80] text-black py-3 rounded-xl font-semibold transition shine">
             Choose Basic
-          </button>
+          </a>
         </div>
 
-        <!-- GROW -->
+        <!-- EMAIL PRO -->
         <div class="reveal glass rounded-3xl p-7 border border-[#22c55e] shadow-[0_0_0_1px_rgba(34,197,94,.25),0_30px_60px_rgba(34,197,94,.08)]">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold text-xl">Grow</h3>
+            <h3 class="font-semibold text-xl">Email Pro</h3>
             <span class="text-xs px-3 py-1 rounded-full bg-[#22c55e]/15 border border-[#22c55e]/30 text-[#4ade80]">Most Popular</span>
           </div>
-          <p class="text-gray-400 text-sm mb-6">For online stores, lead dashboards, and stronger product flows.</p>
+          <p class="text-gray-400 text-sm mb-6">
+            Everything in Basic + a custom email system powered by our backend.
+            Cleaner UX, faster workflow, and up to $180/year saved.
+          </p>
+
           <div class="mb-6">
-            <div class="price text-5xl font-extrabold tracking-tight" data-plan="grow"></div>
-            <div class="text-gray-400 text-sm mt-2" data-plan-note="grow"></div>
+            <div class="price text-5xl font-extrabold tracking-tight" data-plan="emailPro"></div>
+            <div class="text-gray-400 text-sm mt-2" data-plan-note="emailPro"></div>
           </div>
+
           <ul class="space-y-3 text-sm text-gray-300 mb-8">
-            <li>• Storefront or dashboard build</li>
-            <li>• Basic admin panels</li>
-            <li>• Better structure and interactions</li>
+            <li>• Everything in Basic</li>
+            <li>• Custom backend email system</li>
+            <li>• 100 emails / month</li>
+            <li>• Saves up to $180/year vs Formspree</li>
           </ul>
-          <button class="w-full bg-[#22c55e] hover:bg-[#4ade80] text-black py-3 rounded-xl font-semibold transition shine">
-            Choose Grow
-          </button>
+
+          <a id="emailProCta"
+            href="#"
+            class="w-full inline-block text-center bg-[#22c55e] hover:bg-[#4ade80] text-black py-3 rounded-xl font-semibold transition shine">
+            Choose Email Pro
+          </a>
         </div>
 
-        <!-- PREMIUM -->
+        <!-- EMAIL PRO PLUS -->
         <div class="reveal glass rounded-3xl p-7 border border-white/10">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold text-xl">Premium</h3>
+            <h3 class="font-semibold text-xl">Email Pro Plus</h3>
             <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300">Custom</span>
           </div>
-          <p class="text-gray-400 text-sm mb-6">For bigger products, systems, and fully tailored builds.</p>
+          <p class="text-gray-400 text-sm mb-6">
+            Everything in Basic + the custom backend email system with higher volume.
+            Best for heavier lead flow and saves up to $360/year.
+          </p>
+
           <div class="mb-6">
-            <div class="price text-5xl font-extrabold tracking-tight" data-plan="premium"></div>
-            <div class="text-gray-400 text-sm mt-2" data-plan-note="premium"></div>
+            <div class="price text-5xl font-extrabold tracking-tight" data-plan="emailProPlus"></div>
+            <div class="text-gray-400 text-sm mt-2" data-plan-note="emailProPlus"></div>
           </div>
+
           <ul class="space-y-3 text-sm text-gray-300 mb-8">
-            <li>• Full product strategy and design</li>
-            <li>• Advanced workflows and integrations</li>
-            <li>• Custom architecture and delivery</li>
+            <li>• Everything in Basic</li>
+            <li>• Custom backend email system</li>
+            <li>• 250 emails / month</li>
+            <li>• Saves up to $360/year vs Formspree</li>
           </ul>
-          <button class="w-full bg-white hover:bg-gray-100 text-black py-3 rounded-xl font-semibold transition">
+
+          <a id="emailProPlusCta"
+            href="#"
+            class="w-full inline-block text-center bg-white hover:bg-gray-100 text-black py-3 rounded-xl font-semibold transition">
             Contact Us
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -523,15 +546,31 @@
     const pricing = {
       basic: {
         monthly: 29,
-        yearly: 200,
+        yearly: 290
       },
-      grow: {
+      emailPro: {
         monthly: 79,
-        yearly: 500,
+        yearly: 790
       },
-      premium: {
+      emailProPlus: {
         monthly: 149,
-        yearly: 999.99,
+        yearly: 1490
+      }
+    };
+
+    // Put your real checkout URLs here
+    const checkoutLinks = {
+      basic: {
+        monthly: "https://checkouts.kashier.io/en/paymentpage?ppLink=PP-4140888803,live",
+        yearly: "https://checkouts.kashier.io/en/paymentpage?ppLink=PP-4140888802,live"
+      },
+      emailPro: {
+        monthly: "https://your-gateway.com/email-pro-monthly",
+        yearly: "https://your-gateway.com/email-pro-yearly"
+      },
+      emailProPlus: {
+        monthly: "https://your-gateway.com/email-plus-monthly",
+        yearly: "https://your-gateway.com/email-plus-yearly"
       }
     };
 
@@ -547,9 +586,13 @@
     const priceEls = document.querySelectorAll('[data-plan]');
     const noteEls = document.querySelectorAll('[data-plan-note]');
 
+    const basicCta = document.getElementById('basicCta');
+    const emailProCta = document.getElementById('emailProCta');
+    const emailProPlusCta = document.getElementById('emailProPlusCta');
+
     let currentCurrency = 'EGP';
     let currentBilling = 'monthly';
-    let usdToEgpRate = 50; // fallback
+    let usdToEgpRate = 50;
 
     function formatEGP(value) {
       return `EGP ${Math.round(value).toLocaleString('en-US')}`;
@@ -571,13 +614,27 @@
         : 'px-4 py-2 rounded-xl text-sm font-semibold transition text-gray-300 hover:text-white';
     }
 
+    function updateCheckoutLinks() {
+      const billingKey = currentBilling;
+
+      basicCta.href = checkoutLinks.basic[billingKey];
+      emailProCta.href = checkoutLinks.emailPro[billingKey];
+      emailProPlusCta.href = checkoutLinks.emailProPlus[billingKey];
+    }
+
     function renderPricing() {
       priceEls.forEach((el) => {
         const plan = el.dataset.plan;
         const planData = pricing[plan];
 
-        const usdValue = currentBilling === 'monthly' ? planData.monthly : planData.yearly/12;
-        const converted = currentCurrency === 'USD' ? usdValue : usdValue * usdToEgpRate;
+        const usdValue =
+          currentBilling === 'monthly'
+            ? planData.monthly
+            : planData.yearly / 12;
+
+        const converted = currentCurrency === 'USD'
+          ? usdValue
+          : usdValue * usdToEgpRate;
 
         if (currentCurrency === 'USD') {
           el.innerHTML = `${formatUSD(usdValue)}<span class="text-lg text-gray-400">/mo</span>`;
@@ -610,6 +667,8 @@
       setActiveButton(currencyUSDBtn, !isEGP);
       setActiveButton(billingMonthlyBtn, isMonthly);
       setActiveButton(billingYearlyBtn, !isMonthly);
+
+      updateCheckoutLinks();
     }
 
     function setCurrency(currency) {
